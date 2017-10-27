@@ -1,0 +1,194 @@
+//drzewa tire
+#include<iostream>
+#include<deque>
+#include<string>
+using namespace std;
+class Literka
+{
+    public:
+    Literka *przed;
+    Literka* *nastepne=new Literka*[26];
+    int potomki;
+    string tresc;
+    bool ost;
+
+    Literka()
+    {
+        przed=NULL;
+        ost=false;
+        for(int i=0;i<26;i++)
+        {
+            nastepne[i]=NULL;
+        }
+        potomki=0;
+    }
+
+    ~Literka()
+    {
+        delete[]nastepne;
+    }
+
+};
+
+class Tree
+{
+private:
+    Literka* *Nowe=new Literka*[26];
+public:
+    Tree()
+    {
+        for(int i=0; i<26; i++)
+        {
+            this->Nowe[i]=NULL;
+        }
+    }
+    ~Tree()
+    {
+        delete[]Nowe;
+    }
+
+    void insertT(string slowo)
+    {
+        Literka *current = new Literka;
+        int length=slowo.length();
+
+        if(this->Nowe[int(slowo[0])-96]==NULL)
+        {
+            Literka *l = new Literka;
+            l->tresc=slowo[0];
+            this->Nowe[int(slowo[0])-96]=l;
+        }
+        current = this->Nowe[int(slowo[0])-96];
+
+        for(int j=1; j<length; j++)
+        {
+            Literka *li = new Literka;
+            li->przed = current;
+            li->tresc=slowo[j];
+            li->ost = false;
+            current->nastepne[int(slowo[j])-96]=li;
+            current->potomki++;
+            current = li ;
+        }
+           current->ost=true;
+
+
+    }
+
+
+    void compress()
+    {
+        for(int x=0; x<26; x++)
+        {
+            if(this->Nowe[x]==NULL)
+            {
+                 continue;
+            }
+            else
+            {
+                Literka *pomoc = this->Nowe[x];
+                deque<int> poz;
+            while(1){
+                cout<<"poz size "<<poz.size()<<endl;
+                for(int y=0; y<26; y++)
+                {
+                    if(!pomoc->nastepne[y]==NULL)
+                    {
+                        poz.push_back(y);
+                    }
+
+                }
+                cout<<"poz"<<endl;
+                for(int i=0;i<poz.size();i++)cout<<" "<<poz[i];
+                cout<<endl;
+                if(pomoc->potomki==1 && pomoc->ost==false)
+                {   cout<<"pomoc1 "<<pomoc->tresc<<endl;
+                    pomoc->ost=pomoc->nastepne[poz.back()]->ost;
+                    pomoc->potomki=pomoc->nastepne[poz.back()]->potomki;
+                    pomoc->tresc=pomoc->tresc + (pomoc->nastepne[poz.back()]->tresc);
+                    pomoc->nastepne=pomoc->nastepne[poz.back()]->nastepne;
+                    poz.pop_back();
+                    continue;
+                                   }
+
+                if(poz.empty() && pomoc->potomki==0){
+                         cout<<"pomoc2 "<<pomoc->tresc<<endl;
+
+                    break;
+                }
+                else if(pomoc->potomki==0){
+                     cout<<"pomoc3 "<<pomoc->tresc<<endl;
+                     cout<<"nast "<<pomoc->przed->nastepne[poz.front()]->tresc<<endl;
+                     //cofnac do rozwidlenia
+                pomoc=pomoc->przed->nastepne[poz.front()];
+                cout<<"pomoc3po "<<pomoc->tresc<<endl;
+                poz.pop_front();}
+                else if(pomoc->ost==true )
+                {
+                    for(int c=0;c<26;c++){if(!pomoc->nastepne[c]==NULL){}}
+                }
+                else{
+                     cout<<"pomoc4 "<<pomoc->tresc<<endl;
+                pomoc=pomoc->nastepne[poz.back()];
+                poz.pop_back();}
+                }
+
+
+            }
+        }
+    }
+  void suma(int N)
+    {
+        Literka *it = new Literka;
+        float suma=0.0;
+        deque<int> dol;
+        for(int i=0;i<26;i++){
+                if(!this->Nowe[i]==NULL){
+            it = this -> Nowe[i];
+  for(int j=0;j<26;j++){if(it->nastepne[j]==NULL)
+                    {
+                        dol.push_back(j);
+                    }}
+            cout<<"tresc: "<<it->tresc<<endl;
+                do{suma++;
+         cout<<"suma 3 : "<<suma<<endl;
+            if(it->ost==true)
+                {it->ost==false;it=this->Nowe[i];cout<<"tresc: "<<it->tresc<<endl;}
+            else{it=it->nastepne[dol.front()];dol.pop_front();}
+            cout<<"potomki "<<it->potomki<<endl;
+
+            }while(!it->potomki==0);
+                                }
+        }
+        cout<<suma/N<<endl;
+    }
+
+};
+
+int main()
+{
+    int N;
+    Tree Trie;
+    string slowo;
+    while(cin>>N)
+    {
+
+//wpisywanie slow
+
+        for(int i=0; i<N; i++)
+        {
+            cin>>slowo;
+            Trie.insertT(slowo);
+
+        }
+
+        //kompresja
+   Trie.compress();
+//suma wyliczanie i wypisywanie wyniku
+
+    Trie.suma(N);
+
+    }
+
+    return 0;
+}
