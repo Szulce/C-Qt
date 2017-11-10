@@ -1,0 +1,56 @@
+//e1
+#include<iostream>
+#include<vector>
+using namespace std;
+class Node
+{public :
+    char nr;
+    int czas;
+    vector<Node*> poprzednie;
+    string nastepne;
+    int ild;
+    Node(char a,int b,Node *pp)
+    {
+        this->nr=a;
+        this->ild=b;
+      this->poprzednie.push_back(pp);
+    }
+
+ void czas()
+ {
+     int czas=0;
+
+ }
+
+
+};
+
+int main()
+{
+    int tc;
+    cin>>tc;
+    while(tc!=0)
+    {
+       /* int il;
+        char first;
+        cin>>first;
+        cin>il;
+         Node P(first,il,NULL);
+        for(int i=0;i<il;i++)
+        {
+            string popnames;
+             cin>>first>>il>>popnames;
+             Node D(first,popnames.size(),P);
+            
+        }
+        */
+        musisz zorbic set ai usiwac z
+         niego po prostu te literki zadan juz wykopnanych 
+        oraz usuowac czas czyli czaly graf musi byc setem 
+        i z niego bede usuwac , w wprowadzaniu po prostu s go tworze i sowoam z seta 
+        pamietaj o odejmowaniu xczsau oraz o tym zeby wybierac 
+        wierzchołek o najmniejszej wartosci czasu znów klania sie set
+
+
+        tc--;
+    }
