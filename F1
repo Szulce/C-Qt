@@ -1,0 +1,187 @@
+#include<iostream>
+using namespace std;
+
+template <int k> class IntMod{
+public:
+   int Value;
+
+IntMod<k>()
+{
+}
+
+IntMod<k>(int x)
+{
+     Value=x%k;
+    if(Value<0)Value+=k;
+}
+IntMod<k> operator+(IntMod<k> x)
+{
+    Value+=x.Value;
+    Value%=10;
+    if(Value<0)Value+10;
+}
+
+IntMod<k> operator-(IntMod<k> x)
+{
+     Value-=x;
+    Value%=10;
+    if(Value<0)Value+10;
+}
+
+IntMod<k> operator=(IntMod<k> x)
+{
+    Value=x.Value;
+    if(Value<0)Value+=k;
+
+}
+
+//template <int j>friend operator<<(,IntMod<j>);
+};
+/*template <int j> operator<<(,IntMod<j>)
+{
+    cout<<v.Value;
+}
+*/
+template <class T > class Matrix
+{
+    public:
+    T TAB[10][10];
+    int s;
+
+    Matrix<T>(int n)
+    {
+        s=n;
+    }
+
+    void Inser(int value[])
+    {
+        int d=0;
+          for(int i=0;i<s;i++)
+          {
+              for(int j=0;j<s;j++)
+              {
+                  TAB[i][j]=value[d];
+                  d++;
+              }
+          }
+    }
+
+    void R(int rone,int rtwo)
+    {
+        IntMod<10> RowZ;
+        for(int i=0;i<s;i++)
+          {RowZ=TAB[rone-1][i];
+                TAB[rone-1][i]=TAB[rtwo-1][i];
+                TAB[rtwo-1][i]=RowZ;}
+
+    }
+    void C(int cone,int ctwo)
+    {
+        IntMod<10> ColZ;
+        for(int i=0;i<s;i++){
+            ColZ=TAB[i][cone-1];
+            TAB[i][cone-1]=TAB[i][ctwo-1];
+            TAB[i][ctwo-1]=ColZ;
+                    }
+
+    }
+    void I()
+    {
+        IntMod<10> j(1);
+
+        for(int i=0;i<s;i++)
+        {
+            for(int j=0;j<s;j++)
+            {
+                TAB[i][j]=TAB[i][j]+j;
+            }
+        }
+    }
+    void D()
+    {
+        
+        IntMod<10> j(-1);
+
+        for(int i=0;i<s;i++)
+        {
+            for(int j=0;j<s;j++)
+            {
+                TAB[i][j]=TAB[i][j]-j;
+            }
+        }
+    }
+    void Tr()
+    {
+         IntMod<10> Z;
+        for(int i=0;i<s;i++){
+                for(int j=0;j<s;j++)
+                {
+                    Z=
+                }
+        
+            }
+    }
+
+    void Poka()
+    {
+        for(int i=0;i<s;i++)
+        {
+            for(int j=0;j<s;j++)
+            {
+               // cout<<TAB[i][j];
+            }cout<<endl;
+        }
+    }
+};
+int main(){
+
+int T;
+cin>>T;
+for(int i=0;i<T;i++)
+{
+    int N;
+    cin>>N;
+    Matrix< IntMod<10> > MX(N);
+
+    int *IN=new int[N];
+    for(int j=0;j<N;j++)cin>>IN[j];
+    MX.Inser(IN);
+    int M;
+    cin>>M;
+    for(int j=0;j<M;j++)
+    {
+        string a;
+        cin>>a;
+        switch(a[0])
+        {
+        case 'r':
+            {
+                int o=int(a[4]);
+                int t=int(a[5]);
+                MX.R(o,t);
+            }
+            break;
+        case 'c':
+            {
+                int o=int(a[4]);
+                int t=int(a[5]);
+                MX.C(o,t);
+            }
+            break;
+        case 'i':
+            MX.I();
+            break;
+        case 'd':
+            MX.D();
+            break;
+        case 't':
+            MX.Tr();
+            break;
+        }
+    }
+
+MX.Poka();
+
+}
+
+return 0;}
