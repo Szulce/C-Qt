@@ -1,0 +1,225 @@
+#include<iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+struct punkty
+{
+    double x;
+    double y;
+};
+class Figura
+{
+public:
+    virtual bool punkt(double x,double y)=0;
+
+};
+class Rectangle:public Figura
+{
+public:
+
+    double xy1;
+    double xy2;
+    double xy3;
+    double xy4;
+
+    Rectangle()
+    {}
+
+    Rectangle(double a,double b,double c,double d)
+    {
+        xy1=a;
+        xy2=b;
+        xy3=c;
+        xy4=d;
+
+
+    }
+    void setrect(double a,double b,double c,double d)
+    {
+        if(a<c){xy1=a;xy3=c;}
+        else{xy1=c;xy3=a;}
+        if(b>d){xy2=b;xy4=d;}
+        else{xy2=d;xy4=b;}
+
+    }
+    virtual bool punkt(double x, double y)
+    {
+        if((x<=xy1)||(x>=xy3)||(y>=xy2)||(y<=xy4))return false;
+        else return true;
+    }
+
+
+
+};
+class Triangle:public Figura
+{
+public:
+
+    double a;
+    double b;
+    double c;
+    double d;
+    double e;
+    double f;
+    Triangle()
+    {
+    }
+
+    Triangle(double x1,double x2,double x3,double x4,double x5,double x6)
+    {
+        a=x1;
+        b=x2;
+        c=x3;
+        d=x4;
+        e=x5;
+        f=x6;
+
+    }
+void settrian(double x1,double x2,double x3,double x4,double x5,double x6)
+    {
+        a=x1;
+        b=x2;
+        c=x3;
+        d=x4;
+        e=x5;
+        f=x6;
+
+    }
+
+    virtual bool punkt(double x,double y)
+    {
+        double AB = sqrt();
+        double AC = ;
+        double BC = ;
+        double AO = ;
+        double BO = ;
+        double CO = ;
+        double p1 = ;
+        double p2 = ;
+        double p3 = ;
+        double Pc = ;
+        /*double AB = (y-b)*(c-a)-(d-b)*(x-a);
+        double AC = (y-b)*(e-a)-(b-f)*(x-a);
+        double BC = (y-d)*(e-c)-(f-d)*(x-c);
+
+        if ((AB > 0) && (AC > 0) && (BC > 0)) return true;
+        else return false;
+            */
+    }
+
+};
+class Cyrcle:public Figura
+{
+public:
+    double r1;
+    double r2;
+    double S;
+
+    Cyrcle()
+    {
+
+    }
+    Cyrcle(double a,double b,double c)
+    {
+        r1=a;
+        r2=b;
+        S=c;
+
+    }
+
+     void setcyrc(double a,double b,double c)
+    {
+        r1=a;
+        r2=b;
+        S=c;
+
+    }
+    virtual bool punkt(double x,double y)
+    {
+        if(sqrt(pow(r1-x,2)+pow(r2-y,2))<S)return true;
+        else return false;
+    }
+
+
+};
+class Z_FIGUR
+{
+public:
+    vector<Figura*> lista;
+
+    void pt(punkty p,int j)
+    {
+        int how=0;
+        for(int i=0; i<lista.size(); i++)
+        {
+            if(lista[i]->punkt(p.x,p.y))
+            {
+                cout<<"Point "<<j<<" is contained in figure "<<i+1<<endl;
+                how++;
+            }
+
+        }
+        if(how==0)cout<<"Point "<<j<<" is not contained in any figure"<<endl;
+
+    }
+
+
+
+};
+int main()
+{
+    Z_FIGUR F;
+
+    while(1)
+    {
+
+        char a;
+
+        cin>>a;
+        if(a=='*')break;
+        switch(a)
+        {
+        case 'r':
+        {
+            double x1,y1,x2,y2;
+            cin>>x1>>y1>>x2>>y2;
+            Rectangle *R=new Rectangle;
+            R->setrect(x1,y1,x2,y2);
+            F.lista.push_back(R);
+            break;
+        }
+        case 'c':
+        {
+            double r1,r2,S;
+            cin>>r1>>r2>>S;
+            Cyrcle *C=new Cyrcle;
+            C->setcyrc(r1,r2,S);
+            F.lista.push_back(C);
+            break;
+        }
+        case 't':
+        {
+            double a,b,c,d,e,f;
+            cin>>a>>b>>c>>d>>e>>f;
+            Triangle *T=new Triangle;
+            T->settrian(a,b,c,d,e,f);
+            F.lista.push_back(T);
+            break;
+        }
+
+        }
+
+    }
+
+    int j=1;
+    while(1)
+    {
+        punkty p;
+        cin>>p.x>>p.y;
+        if(p.x==9999.9 && p.y==9999.9)break;
+        F.pt(p,j);
+        j++;
+    }
+
+    return 0;
+}
