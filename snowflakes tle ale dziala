@@ -1,0 +1,89 @@
+#include<iostream>
+using namespace std;
+int znaj(unsigned long long int co,unsigned long long int T[],unsigned long long int od,unsigned long long int do_t)
+{
+    for(unsigned long long int i=od;i<do_t;i++)
+    {
+        if(T[i]==co){ return (i+1);}
+
+    }
+    return od;
+}
+int main()
+{
+    int t;
+    cin>>t;
+    for(int i=0;i<t;i++)
+    {
+        unsigned long long int n;
+        cin>>n;
+        if(n==0)cout<<0<<endl;
+        else{
+        unsigned long long int *T=new unsigned long long int[n];
+        unsigned long long int od=0,t=1,r=1,pomod,pomr;
+        for(unsigned long long int j=0;j<n;j++)
+        {
+            cin>>T[j];
+            if(j>0)
+            {
+                if((pomod=znaj(T[j],T,od,t))!=od)
+                {
+                 od=pomod;
+                }
+             pomr=t-od+1;
+            if(pomr>r)r=pomr;
+            t++;
+        }
+        }
+        cout<<r<<endl;
+        }
+    }
+    return 0;
+}
+
+/// z wynikiem do pliku
+#include<iostream>
+#include<fstream>
+using namespace std;
+int znaj(unsigned long long int co,unsigned long long int T[],unsigned long long int od,unsigned long long int do_t)
+{
+    for(unsigned long long int i=od;i<do_t;i++)
+    {
+        if(T[i]==co){ return (i+1);}
+
+    }
+    return od;
+}
+int main()
+{
+    fstream p1;
+    p1.open("w.txt",ios::out);
+    int t;
+    cin>>t;
+    for(int i=0;i<t;i++)
+    {
+        unsigned long long int n;
+        cin>>n;
+        if(n==0)p1<<0<<endl;
+        else{
+        unsigned long long int *T=new unsigned long long int[n];
+        unsigned long long int od=0,t=1,r=1,pomod,pomr;
+        for(unsigned long long int j=0;j<n;j++)
+        {
+            cin>>T[j];
+            if(j>0)
+            {
+                if((pomod=znaj(T[j],T,od,t))!=od)
+                {
+                 od=pomod;
+                }
+             pomr=t-od+1;
+            if(pomr>r)r=pomr;
+            t++;
+        }
+        }
+        p1<<r<<endl;
+        }
+    }
+    return 0;
+}
